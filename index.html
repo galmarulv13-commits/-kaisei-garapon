@@ -1,235 +1,41 @@
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#fff3c8">
-<title>凱政ガラポン</title>
-<style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#262626;background:#fff3c8}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;background:linear-gradient(#fff9e8,#fff0b8);overscroll-behavior:none}
-button{font:inherit;touch-action:manipulation}
-.app{max-width:680px;margin:auto;padding:16px 14px 60px}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
-h1{font-size:clamp(27px,8vw,42px);margin:0;letter-spacing:.02em}
-.topRight{display:flex;align-items:center;gap:8px}
-.ticket{background:#fff;border:3px solid #262626;border-radius:999px;padding:8px 12px;font-size:17px;box-shadow:0 4px 0 #0002;white-space:nowrap}
-.iconBtn{width:48px;height:48px;border:3px solid #262626;border-radius:50%;background:#fff;font-size:23px;font-weight:800}
-.machine{margin-top:18px;background:#fff;border:4px solid #262626;border-radius:28px;padding:18px 16px 20px;box-shadow:0 8px 0 #0002;text-align:center}
-.stage{min-height:320px;display:grid;place-items:center;position:relative}
-.mystery{width:min(62vw,260px);aspect-ratio:1;border-radius:50%;border:7px solid #262626;background:#eee;display:grid;place-items:center;font-size:120px;font-weight:900;box-shadow:inset 0 -14px #00000012}
-.portraitLarge{width:min(76vw,330px);height:300px;display:none;align-items:center;justify-content:center}
-.portraitLarge svg{max-width:100%;max-height:100%}
-.resultName{min-height:54px;font-weight:900;font-size:clamp(24px,7vw,36px);margin:4px 0 12px}
-.meta{font-size:15px;margin-top:-6px;margin-bottom:12px;color:#555;min-height:22px}
-.badge{display:inline-block;border:2px solid #262626;border-radius:999px;padding:3px 8px;margin:0 3px;background:#fff;font-size:13px;font-weight:800}
-.badge.R{background:#ffe18a}.badge.SR{background:#ffc7ef}
-.new{background:#ff4d5f;color:#fff}
-.spin{width:100%;min-height:92px;border:5px solid #262626;border-radius:24px;background:#ffca28;box-shadow:0 8px 0 #a87600;font-size:clamp(36px,10vw,54px);font-weight:1000}
-.spin:active:not(:disabled){transform:translateY(5px);box-shadow:0 3px 0 #a87600}
-.spin:disabled{opacity:.34;box-shadow:none;filter:grayscale(.5)}
-.hint{margin:12px 0 0;color:#666;font-size:14px}
-.shake{animation:shake .09s infinite alternate}
-@keyframes shake{from{transform:rotate(-4deg) scale(.98)}to{transform:rotate(4deg) scale(1.02)}}
-.collection{margin-top:18px;background:#ffffffc7;border:3px solid #262626;border-radius:24px;padding:15px}
-.collectionHead{display:flex;justify-content:space-between;align-items:center}
-.collectionHead h2{margin:0 0 12px;font-size:25px}.count{font-weight:900;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.card{border:2px solid #262626;border-radius:15px;background:#fff;overflow:hidden;min-height:136px;position:relative;padding:5px;display:flex;flex-direction:column}
-.card .pic{height:92px;display:flex;align-items:center;justify-content:center}
-.card svg{width:100%;height:100%}
-.cardName{font-size:10px;line-height:1.2;text-align:center;font-weight:900;margin-top:2px}
-.card.locked .pic{filter:brightness(0);opacity:.17}
-.card.locked .cardName{color:#aaa}.card.locked .cardName::after{content:"？？？"}.card.locked .nameText{display:none}
-.rarityDot{position:absolute;top:6px;right:6px;border-radius:999px;padding:2px 5px;background:#e6efff;font-size:9px;font-weight:900}
-.rarityDot.R{background:#ffe18a}.rarityDot.SR{background:#ffc7ef}
-.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
-.overlay.open{display:flex}
-.panel{width:min(420px,100%);background:#fffaf0;border:4px solid #262626;border-radius:24px;padding:20px;box-shadow:0 10px 0 #0003}
-.panelHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
-.panel h2{margin:0;font-size:27px}.closeBtn{width:44px;height:44px;border:3px solid #262626;border-radius:50%;background:#fff;font-size:25px;font-weight:900}
-.parentButtons{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.parentBtn{min-height:72px;border:3px solid #262626;border-radius:18px;background:#9ee59e;font-size:24px;font-weight:900}
-.parentBtn.blue{background:#cde6ff}.resetBtn{width:100%;margin-top:18px;min-height:48px;border:2px solid #8d2c2c;border-radius:14px;background:#fff;color:#8d2c2c;font-weight:800}
-.note{font-size:12px;color:#777;margin-bottom:0}
-.confirmActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.confirmActions button{min-height:52px;border:3px solid #262626;border-radius:14px;font-weight:900}.danger{background:#ff7373}.cancel{background:#eee}
+<title>凱政ガラポン</title><style>
+*{box-sizing:border-box}body{margin:0;background:#fff3c8;color:#282828;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+.app{max-width:680px;margin:auto;padding:18px 14px 60px}header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+h1{font-size:clamp(28px,8vw,42px);margin:0}.top{display:flex;gap:8px;align-items:center}.pill,.gear{background:#fff;border:3px solid #282828;box-shadow:0 4px #0002}
+.pill{border-radius:99px;padding:8px 12px;white-space:nowrap}.gear{width:50px;height:50px;border-radius:50%;font-size:24px}
+.machine,.book{background:#fffdf7;border:4px solid #282828;border-radius:28px;box-shadow:0 8px #0002}.machine{margin-top:18px;padding:18px;text-align:center}
+.hero{height:min(78vw,390px);display:flex;align-items:center;justify-content:center}.hero img{width:100%;height:100%;object-fit:contain;border-radius:18px}
+.q{font-size:140px;font-weight:900}.name{font-size:clamp(27px,8vw,40px);font-weight:900;min-height:52px}.meta{min-height:64px}
+.tag{display:inline-block;border:2px solid #333;border-radius:99px;padding:4px 8px;margin:3px;font-weight:800;font-size:13px}.new{background:#f25560;color:#fff}
+.spin{width:100%;min-height:92px;border:5px solid #282828;border-radius:24px;background:#ffca28;box-shadow:0 8px #a87600;font-size:clamp(36px,10vw,54px);font-weight:1000}
+.spin:disabled{opacity:.32;box-shadow:none}.hint{color:#666}.book{margin-top:20px;padding:15px}.bookHead{display:flex;justify-content:space-between;align-items:center}
+.book h2{margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.card{position:relative;border:2px solid #333;border-radius:14px;background:#fff;overflow:hidden;min-height:135px}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.card.lock img{filter:brightness(0);opacity:.14}.card.lock:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font-size:48px;font-weight:900;color:#999}
+.cn{text-align:center;font-size:9px;font-weight:900;padding:3px}.card.lock .cn{visibility:hidden}.rar{position:absolute;top:4px;right:4px;background:#fff;border-radius:99px;padding:2px 5px;font-size:9px;font-weight:900;z-index:2}
+.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.overlay.open{display:flex}.panel{width:min(420px,100%);background:#fffaf0;border:4px solid #282828;border-radius:24px;padding:20px}
+.ph{display:flex;justify-content:space-between;align-items:center}.ph h2{margin:0}.close{width:44px;height:44px;border:3px solid #282828;border-radius:50%;background:#fff;font-size:25px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.add{min-height:74px;border:3px solid #282828;border-radius:18px;background:#a8e7a8;font-size:25px;font-weight:900}.add:nth-child(2){background:#cde6ff}
+.reset{width:100%;margin-top:18px;min-height:48px;border:2px solid #922;border-radius:14px;background:#fff;color:#922;font-weight:800}
 @media(min-width:540px){.grid{grid-template-columns:repeat(5,1fr)}}
-</style>
-</head>
-<body>
-<main class="app">
-<header>
-  <h1>凱政ガラポン</h1>
-  <div class="topRight">
-    <div class="ticket">あと <strong id="spinsLeft">0</strong> 回</div>
-    <button id="settingsBtn" class="iconBtn" type="button" aria-label="おうちの人メニュー">⚙️</button>
-  </div>
-</header>
-
-<section class="machine">
-  <div id="stage" class="stage">
-    <div id="mystery" class="mystery">?</div>
-    <div id="portraitLarge" class="portraitLarge"></div>
-  </div>
-  <div id="resultName" class="resultName">ガラポンしてみよう！</div>
-  <div id="resultMeta" class="meta"></div>
-  <button id="spinBtn" class="spin" type="button" disabled>ガラポン！</button>
-  <p id="hint" class="hint">おうちの人に回数をもらってね</p>
-</section>
-
-<section class="collection">
-  <div class="collectionHead"><h2>ずかん</h2><div class="count"><span id="ownedCount">0</span> / 30</div></div>
-  <div id="grid" class="grid"></div>
-</section>
-</main>
-
-<div id="parentOverlay" class="overlay" aria-hidden="true">
- <div class="panel" role="dialog" aria-modal="true" aria-labelledby="parentTitle">
-  <div class="panelHead"><h2 id="parentTitle">おうちの人メニュー</h2><button id="closeParent" class="closeBtn" type="button">×</button></div>
-  <div class="parentButtons">
-    <button id="addOne" class="parentBtn" type="button">＋1回</button>
-    <button id="addThree" class="parentBtn blue" type="button">＋3回</button>
-  </div>
-  <button id="resetOpen" class="resetBtn" type="button">図鑑と回数をリセット</button>
-  <p class="note">このiPhoneのSafariに保存されます。</p>
- </div>
-</div>
-
-<div id="resetOverlay" class="overlay" aria-hidden="true">
- <div class="panel" role="dialog" aria-modal="true">
-  <h2>ほんとうにリセット？</h2>
-  <p>回数と図鑑が全部消えます。</p>
-  <div class="confirmActions">
-   <button id="resetCancel" class="cancel" type="button">やめる</button>
-   <button id="resetConfirm" class="danger" type="button">リセット</button>
-  </div>
- </div>
-</div>
-
+</style></head><body><main class="app">
+<header><h1>凱政ガラポン</h1><div class="top"><div class="pill">あと <b id="left">0</b> 回</div><button class="gear" id="gear">⚙️</button></div></header>
+<section class="machine"><div class="hero" id="hero"><div class="q">?</div></div><div class="name" id="name">ガラポンしてみよう！</div><div class="meta" id="meta"></div><button class="spin" id="spin" disabled>ガラポン！</button><p class="hint">おうちの人に回数をもらってね</p></section>
+<section class="book"><div class="bookHead"><h2>ずかん</h2><b><span id="ownedN">0</span> / 30</b></div><div class="grid" id="grid"></div></section></main>
+<div class="overlay" id="parent"><div class="panel"><div class="ph"><h2>おうちの人メニュー</h2><button class="close" id="close">×</button></div><div class="actions"><button class="add" id="plus1">＋1回</button><button class="add" id="plus3">＋3回</button></div><button class="reset" id="reset">図鑑と回数をリセット</button></div></div>
 <script>
-const CHARACTERS = [{"id": 1, "name": "ホノイヌジャ", "element": "ほのお", "elementEmoji": "🔥", "job": "忍者", "jobEmoji": "🥷", "animal": "いぬ", "animalEmoji": "🐶", "rarity": "N"}, {"id": 2, "name": "ミズネコポリス", "element": "みず", "elementEmoji": "💧", "job": "警察", "jobEmoji": "👮", "animal": "ねこ", "animalEmoji": "🐱", "rarity": "N"}, {"id": 3, "name": "クサリュウジエイ", "element": "くさ", "elementEmoji": "🌿", "job": "自衛隊", "jobEmoji": "🪖", "animal": "恐竜", "animalEmoji": "🦖", "rarity": "SR"}, {"id": 4, "name": "コオリペンショウ", "element": "こおり", "elementEmoji": "❄️", "job": "消防", "jobEmoji": "🚒", "animal": "ペンギン", "animalEmoji": "🐧", "rarity": "R"}, {"id": 5, "name": "デンキウサレスキュ", "element": "でんき", "elementEmoji": "⚡", "job": "救助隊", "jobEmoji": "⛑️", "animal": "うさぎ", "animalEmoji": "🐰", "rarity": "R"}, {"id": 6, "name": "ツチクマダイク", "element": "じめん", "elementEmoji": "🪨", "job": "大工", "jobEmoji": "🔨", "animal": "くま", "animalEmoji": "🐻", "rarity": "N"}, {"id": 7, "name": "カゼトリヒコウ", "element": "かぜ", "elementEmoji": "🌪️", "job": "パイロット", "jobEmoji": "✈️", "animal": "とり", "animalEmoji": "🐦", "rarity": "N"}, {"id": 8, "name": "ヒカリキツネイシャ", "element": "ひかり", "elementEmoji": "✨", "job": "お医者さん", "jobEmoji": "🩺", "animal": "きつね", "animalEmoji": "🦊", "rarity": "R"}, {"id": 9, "name": "ヤミサメニンジャ", "element": "やみ", "elementEmoji": "🌑", "job": "忍者", "jobEmoji": "🥷", "animal": "さめ", "animalEmoji": "🦈", "rarity": "R"}, {"id": 10, "name": "ホノオサルカラテ", "element": "ほのお", "elementEmoji": "🔥", "job": "空手家", "jobEmoji": "🥋", "animal": "さる", "animalEmoji": "🐵", "rarity": "N"}, {"id": 11, "name": "ミズカメセンチョウ", "element": "みず", "elementEmoji": "💧", "job": "船長", "jobEmoji": "⚓", "animal": "かめ", "animalEmoji": "🐢", "rarity": "N"}, {"id": 12, "name": "クサカエルノウカ", "element": "くさ", "elementEmoji": "🌿", "job": "農家", "jobEmoji": "🚜", "animal": "かえる", "animalEmoji": "🐸", "rarity": "N"}, {"id": 13, "name": "コオリシロクマケイ", "element": "こおり", "elementEmoji": "❄️", "job": "警察", "jobEmoji": "👮", "animal": "しろくま", "animalEmoji": "🐻‍❄️", "rarity": "R"}, {"id": 14, "name": "デンキライオンデン", "element": "でんき", "elementEmoji": "⚡", "job": "電気屋", "jobEmoji": "🔧", "animal": "ライオン", "animalEmoji": "🦁", "rarity": "R"}, {"id": 15, "name": "ツチワニジエイ", "element": "じめん", "elementEmoji": "🪨", "job": "自衛隊", "jobEmoji": "🪖", "animal": "わに", "animalEmoji": "🐊", "rarity": "N"}, {"id": 16, "name": "カゼネコハイタツ", "element": "かぜ", "elementEmoji": "🌪️", "job": "配達員", "jobEmoji": "📦", "animal": "ねこ", "animalEmoji": "🐱", "rarity": "N"}, {"id": 17, "name": "ヒカリイヌエキイン", "element": "ひかり", "elementEmoji": "✨", "job": "駅員", "jobEmoji": "🚉", "animal": "いぬ", "animalEmoji": "🐶", "rarity": "N"}, {"id": 18, "name": "ヤミフクロウタンテイ", "element": "やみ", "elementEmoji": "🌑", "job": "探偵", "jobEmoji": "🔎", "animal": "ふくろう", "animalEmoji": "🦉", "rarity": "R"}, {"id": 19, "name": "ホノオトラショウボウ", "element": "ほのお", "elementEmoji": "🔥", "job": "消防", "jobEmoji": "🚒", "animal": "とら", "animalEmoji": "🐯", "rarity": "R"}, {"id": 20, "name": "ミズイルカレスキュ", "element": "みず", "elementEmoji": "💧", "job": "救助隊", "jobEmoji": "⛑️", "animal": "いるか", "animalEmoji": "🐬", "rarity": "R"}, {"id": 21, "name": "クサパンダコック", "element": "くさ", "elementEmoji": "🌿", "job": "コック", "jobEmoji": "👨‍🍳", "animal": "パンダ", "animalEmoji": "🐼", "rarity": "N"}, {"id": 22, "name": "コオリキツネタンケン", "element": "こおり", "elementEmoji": "❄️", "job": "探検家", "jobEmoji": "🧭", "animal": "きつね", "animalEmoji": "🦊", "rarity": "N"}, {"id": 23, "name": "デンキハムハカセ", "element": "でんき", "elementEmoji": "⚡", "job": "博士", "jobEmoji": "🥼", "animal": "ハムスター", "animalEmoji": "🐹", "rarity": "SR"}, {"id": 24, "name": "ツチゴリラコウジ", "element": "じめん", "elementEmoji": "🪨", "job": "工事隊", "jobEmoji": "🚧", "animal": "ゴリラ", "animalEmoji": "🦍", "rarity": "N"}, {"id": 25, "name": "カゼウマケイサツ", "element": "かぜ", "elementEmoji": "🌪️", "job": "警察", "jobEmoji": "👮", "animal": "うま", "animalEmoji": "🐴", "rarity": "N"}, {"id": 26, "name": "ヒカリヒツジホイク", "element": "ひかり", "elementEmoji": "✨", "job": "先生", "jobEmoji": "📚", "animal": "ひつじ", "animalEmoji": "🐑", "rarity": "N"}, {"id": 27, "name": "ヤミコウモリスパイ", "element": "やみ", "elementEmoji": "🌑", "job": "スパイ", "jobEmoji": "🕶️", "animal": "こうもり", "animalEmoji": "🦇", "rarity": "SR"}, {"id": 28, "name": "ホノオブタコック", "element": "ほのお", "elementEmoji": "🔥", "job": "コック", "jobEmoji": "👨‍🍳", "animal": "ぶた", "animalEmoji": "🐷", "rarity": "N"}, {"id": 29, "name": "ミズタコセンチョウ", "element": "みず", "elementEmoji": "💧", "job": "船長", "jobEmoji": "⚓", "animal": "たこ", "animalEmoji": "🐙", "rarity": "R"}, {"id": 30, "name": "クサリスユウビン", "element": "くさ", "elementEmoji": "🌿", "job": "郵便屋", "jobEmoji": "📮", "animal": "りす", "animalEmoji": "🐿️", "rarity": "N"}];
-const STORAGE_KEY = "kaisei-garapon-v3";
-const RARITY_LABEL = {N:"ノーマル",R:"レア",SR:"スーパーレア"};
-const ELEMENT_COLOR = {"ほのお":"#ff8b55","みず":"#79c8ff","くさ":"#9bd06e","こおり":"#bcecff","でんき":"#ffe463","じめん":"#cda87c","かぜ":"#bce8d8","ひかり":"#ffe99b","やみ":"#bbb0cf"};
-let state = {spins:0, owned:[]};
-let spinning = false;
-
-function $(id){return document.getElementById(id)}
-function load(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    if(!raw)return;
-    const x=JSON.parse(raw);
-    state.spins=Number.isInteger(x.spins)&&x.spins>=0?Math.min(x.spins,99):0;
-    state.owned=Array.isArray(x.owned)?[...new Set(x.owned.filter(id=>CHARACTERS.some(c=>c.id===id)))]:[];
-  }catch(e){ state={spins:0,owned:[]} }
-}
-function save(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){} }
-function rand(){
-  if(window.crypto&&crypto.getRandomValues){
-    const a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]/4294967296;
-  }
-  return Math.random();
-}
-function pick(){
-  const r=rand(); const rarity=r<.70?"N":r<.95?"R":"SR";
-  const pool=CHARACTERS.filter(c=>c.rarity===rarity);
-  return pool[Math.floor(rand()*pool.length)];
-}
-function faceSeed(c){return (c.id*37)%5}
-function portraitSVG(c, large=false){
- const color=ELEMENT_COLOR[c.element]||"#ddd";
- const s=faceSeed(c);
- const eyeY=78+(s%2)*3, mouthY=111+(s%3);
- const ear = c.animal.includes("恐竜")||c.animal.includes("わに")||c.animal.includes("さめ")
-  ? `<path d="M42 56 L28 26 L58 43 M158 56 L172 26 L142 43" fill="${color}" stroke="#282828" stroke-width="5" stroke-linejoin="round"/>`
-  : c.animal.includes("とり")||c.animal.includes("ふくろう")||c.animal.includes("ペンギン")
-  ? `<path d="M70 52 Q100 18 130 52" fill="${color}" stroke="#282828" stroke-width="5"/><path d="M94 92 L106 92 L100 108 Z" fill="#e7a23a" stroke="#282828" stroke-width="3"/>`
-  : `<path d="M48 58 Q25 25 38 20 Q60 20 70 49 M152 58 Q175 25 162 20 Q140 20 130 49" fill="${color}" stroke="#282828" stroke-width="5"/>`;
- const horns = c.animal.includes("恐竜") ? `<path d="M81 47 L91 18 L102 48 M112 47 L124 19 L132 52" fill="#eee0b8" stroke="#282828" stroke-width="4"/>`:"";
- const jobHat = c.job==="警察" ? `<path d="M55 45 Q100 15 145 45 L138 62 H62Z" fill="#244f78" stroke="#282828" stroke-width="5"/><circle cx="100" cy="38" r="9" fill="#ffd34d" stroke="#282828" stroke-width="3"/>`
- : c.job==="消防" ? `<path d="M58 51 Q62 20 100 18 Q138 20 142 51 Z" fill="#e94f3f" stroke="#282828" stroke-width="5"/><rect x="84" y="27" width="32" height="20" rx="7" fill="#ffd34d"/>`
- : c.job==="自衛隊" ? `<path d="M57 50 Q62 18 100 17 Q138 18 143 50Z" fill="#667548" stroke="#282828" stroke-width="5"/><path d="M67 29 l18 8 12-13 14 11 19-6" fill="none" stroke="#3d4b2d" stroke-width="7"/>`
- : c.job==="忍者" ? `<path d="M48 59 Q100 30 152 59 L143 73 H57Z" fill="#24262b" stroke="#282828" stroke-width="5"/><rect x="82" y="43" width="36" height="18" rx="5" fill="#aaa" stroke="#282828" stroke-width="3"/>`
- : `<text x="100" y="47" text-anchor="middle" font-size="34">${c.jobEmoji}</text>`;
- return `<svg viewBox="0 0 200 190" xmlns="http://www.w3.org/2000/svg" aria-label="${c.name}">
-  <ellipse cx="100" cy="176" rx="58" ry="10" fill="#0002"/>
-  <circle cx="100" cy="98" r="68" fill="${color}" stroke="#282828" stroke-width="6"/>
-  ${ear}${horns}${jobHat}
-  <ellipse cx="100" cy="112" rx="48" ry="40" fill="#f4d4b5" opacity=".92"/>
-  <ellipse cx="71" cy="${eyeY}" rx="13" ry="15" fill="#fff" stroke="#282828" stroke-width="4"/>
-  <ellipse cx="129" cy="${eyeY}" rx="13" ry="15" fill="#fff" stroke="#282828" stroke-width="4"/>
-  <circle cx="${68+s}" cy="${eyeY+4}" r="6" fill="#282828"/><circle cx="${126-s}" cy="${eyeY+4}" r="6" fill="#282828"/>
-  <circle cx="64" cy="112" r="10" fill="#e98f8f" opacity=".6"/><circle cx="136" cy="112" r="10" fill="#e98f8f" opacity=".6"/>
-  <ellipse cx="100" cy="101" rx="10" ry="7" fill="#8d5b45" stroke="#282828" stroke-width="3"/>
-  <path d="M83 ${mouthY} Q100 ${128+s} 117 ${mouthY}" fill="#7f403c" stroke="#282828" stroke-width="4" stroke-linecap="round"/>
-  <rect x="60" y="144" width="80" height="30" rx="14" fill="#3c4651" stroke="#282828" stroke-width="5"/>
-  <text x="100" y="166" text-anchor="middle" font-size="23">${c.elementEmoji}${c.animalEmoji}</text>
- </svg>`;
-}
-function render(){
- $("spinsLeft").textContent=state.spins;
- $("ownedCount").textContent=state.owned.length;
- $("spinBtn").disabled=state.spins<=0||spinning;
- $("hint").style.visibility=state.spins>0?"hidden":"visible";
- const grid=$("grid"); grid.innerHTML="";
- CHARACTERS.forEach(c=>{
-   const owned=state.owned.includes(c.id);
-   const d=document.createElement("div");
-   d.className="card"+(owned?"":" locked");
-   d.innerHTML=`<div class="rarityDot ${c.rarity}">${c.rarity}</div><div class="pic">${portraitSVG(c)}</div><div class="cardName"><span class="nameText">${c.name}</span></div>`;
-   grid.appendChild(d);
- });
-}
-function openOverlay(el){el.classList.add("open");el.setAttribute("aria-hidden","false")}
-function closeOverlay(el){el.classList.remove("open");el.setAttribute("aria-hidden","true")}
-function addSpins(n){state.spins=Math.min(99,state.spins+n);save();render()}
-function showResult(c,isNew){
- $("mystery").style.display="none";
- $("portraitLarge").style.display="flex";
- $("portraitLarge").innerHTML=portraitSVG(c,true);
- $("resultName").textContent=c.name;
- $("resultMeta").innerHTML=`<span class="badge">${c.elementEmoji} ${c.element}</span><span class="badge">${c.jobEmoji} ${c.job}</span><span class="badge">${c.animalEmoji} ${c.animal}</span><span class="badge ${c.rarity}">${RARITY_LABEL[c.rarity]}</span>${isNew?'<span class="badge new">NEW!</span>':""}`;
-}
-function spin(){
- if(spinning||state.spins<=0)return;
- spinning=true; state.spins--; save(); render();
- $("stage").classList.add("shake");
- $("resultName").textContent="ガラガラガラ…"; $("resultMeta").textContent="";
- let tick=0;
- const timer=setInterval(()=>{
-   const c=CHARACTERS[tick++%CHARACTERS.length];
-   $("mystery").style.display="none"; $("portraitLarge").style.display="flex";
-   $("portraitLarge").innerHTML=portraitSVG(c,true);
- },65);
- setTimeout(()=>{
-   clearInterval(timer); $("stage").classList.remove("shake");
-   const c=pick(); const isNew=!state.owned.includes(c.id);
-   if(isNew)state.owned.push(c.id); save(); spinning=false; showResult(c,isNew); render();
- },900);
-}
-function resetAll(){
- state={spins:0,owned:[]}; save(); spinning=false;
- $("portraitLarge").style.display="none"; $("portraitLarge").innerHTML="";
- $("mystery").style.display="grid"; $("resultName").textContent="ガラポンしてみよう！"; $("resultMeta").textContent="";
- render();
-}
-function bind(){
- const po=$("parentOverlay"), ro=$("resetOverlay");
- $("settingsBtn").addEventListener("click",()=>openOverlay(po));
- $("closeParent").addEventListener("click",()=>closeOverlay(po));
- $("addOne").addEventListener("click",()=>{addSpins(1);closeOverlay(po)});
- $("addThree").addEventListener("click",()=>{addSpins(3);closeOverlay(po)});
- $("resetOpen").addEventListener("click",()=>{closeOverlay(po);openOverlay(ro)});
- $("resetCancel").addEventListener("click",()=>closeOverlay(ro));
- $("resetConfirm").addEventListener("click",()=>{resetAll();closeOverlay(ro)});
- $("spinBtn").addEventListener("click",spin);
- [po,ro].forEach(o=>o.addEventListener("click",e=>{if(e.target===o)closeOverlay(o)}));
-}
-load();bind();render();
-window.__GARAPON__={getState:()=>JSON.parse(JSON.stringify(state)),addSpins,resetAll,pick};
-</script>
-</body>
-</html>
+const C=[{"id": 1, "name": "ホノイヌジャ", "element": "ほのお", "ee": "🔥", "job": "忍者", "je": "🥷", "animal": "いぬ", "ae": "🐶", "rarity": "N", "img": "01.jpg"}, {"id": 2, "name": "ミズネコポリス", "element": "みず", "ee": "💧", "job": "警察", "je": "👮", "animal": "ねこ", "ae": "🐱", "rarity": "N", "img": "02.jpg"}, {"id": 3, "name": "クサリュウジエイ", "element": "くさ", "ee": "🌿", "job": "自衛隊", "je": "🪖", "animal": "恐竜", "ae": "🦖", "rarity": "SR", "img": "03.jpg"}, {"id": 4, "name": "コオリペンショウ", "element": "こおり", "ee": "❄️", "job": "消防", "je": "🚒", "animal": "ペンギン", "ae": "🐧", "rarity": "R", "img": "04.jpg"}, {"id": 5, "name": "デンキウサレスキュ", "element": "でんき", "ee": "⚡", "job": "救助隊", "je": "⛑️", "animal": "うさぎ", "ae": "🐰", "rarity": "R", "img": "05.jpg"}, {"id": 6, "name": "ツチクマダイク", "element": "じめん", "ee": "🪨", "job": "大工", "je": "🔨", "animal": "くま", "ae": "🐻", "rarity": "N", "img": "06.jpg"}, {"id": 7, "name": "カゼトリヒコウ", "element": "かぜ", "ee": "🌪️", "job": "パイロット", "je": "✈️", "animal": "とり", "ae": "🐦", "rarity": "N", "img": "07.jpg"}, {"id": 8, "name": "ヒカリキツネイシャ", "element": "ひかり", "ee": "✨", "job": "お医者さん", "je": "🩺", "animal": "きつね", "ae": "🦊", "rarity": "R", "img": "08.jpg"}, {"id": 9, "name": "ヤミサメニンジャ", "element": "やみ", "ee": "🌑", "job": "忍者", "je": "🥷", "animal": "さめ", "ae": "🦈", "rarity": "R", "img": "09.jpg"}, {"id": 10, "name": "ホノオサルカラテ", "element": "ほのお", "ee": "🔥", "job": "空手家", "je": "🥋", "animal": "さる", "ae": "🐵", "rarity": "N", "img": "10.jpg"}, {"id": 11, "name": "ミズカメセンチョウ", "element": "みず", "ee": "💧", "job": "船長", "je": "⚓", "animal": "かめ", "ae": "🐢", "rarity": "N", "img": "11.jpg"}, {"id": 12, "name": "クサカエルノウカ", "element": "くさ", "ee": "🌿", "job": "農家", "je": "🚜", "animal": "かえる", "ae": "🐸", "rarity": "N", "img": "12.jpg"}, {"id": 13, "name": "コオリシロクマケイ", "element": "こおり", "ee": "❄️", "job": "警察", "je": "👮", "animal": "しろくま", "ae": "🐻‍❄️", "rarity": "R", "img": "13.jpg"}, {"id": 14, "name": "デンキライオンデン", "element": "でんき", "ee": "⚡", "job": "電気屋", "je": "🔧", "animal": "ライオン", "ae": "🦁", "rarity": "R", "img": "14.jpg"}, {"id": 15, "name": "ツチワニジエイ", "element": "じめん", "ee": "🪨", "job": "自衛隊", "je": "🪖", "animal": "わに", "ae": "🐊", "rarity": "N", "img": "15.jpg"}, {"id": 16, "name": "カゼネコハイタツ", "element": "かぜ", "ee": "🌪️", "job": "配達員", "je": "📦", "animal": "ねこ", "ae": "🐱", "rarity": "N", "img": "16.jpg"}, {"id": 17, "name": "ヒカリイヌエキイン", "element": "ひかり", "ee": "✨", "job": "駅員", "je": "🚉", "animal": "いぬ", "ae": "🐶", "rarity": "N", "img": "17.jpg"}, {"id": 18, "name": "ヤミフクロウタンテイ", "element": "やみ", "ee": "🌑", "job": "探偵", "je": "🔎", "animal": "ふくろう", "ae": "🦉", "rarity": "R", "img": "18.jpg"}, {"id": 19, "name": "ホノオトラショウボウ", "element": "ほのお", "ee": "🔥", "job": "消防", "je": "🚒", "animal": "とら", "ae": "🐯", "rarity": "R", "img": "19.jpg"}, {"id": 20, "name": "ミズイルカレスキュ", "element": "みず", "ee": "💧", "job": "救助隊", "je": "⛑️", "animal": "いるか", "ae": "🐬", "rarity": "R", "img": "20.jpg"}, {"id": 21, "name": "クサパンダコック", "element": "くさ", "ee": "🌿", "job": "コック", "je": "👨‍🍳", "animal": "パンダ", "ae": "🐼", "rarity": "N", "img": "21.jpg"}, {"id": 22, "name": "コオリキツネタンケン", "element": "こおり", "ee": "❄️", "job": "探検家", "je": "🧭", "animal": "きつね", "ae": "🦊", "rarity": "N", "img": "22.jpg"}, {"id": 23, "name": "デンキハムハカセ", "element": "でんき", "ee": "⚡", "job": "博士", "je": "🥼", "animal": "ハムスター", "ae": "🐹", "rarity": "SR", "img": "23.jpg"}, {"id": 24, "name": "ツチゴリラコウジ", "element": "じめん", "ee": "🪨", "job": "工事隊", "je": "🚧", "animal": "ゴリラ", "ae": "🦍", "rarity": "N", "img": "24.jpg"}, {"id": 25, "name": "カゼウマケイサツ", "element": "かぜ", "ee": "🌪️", "job": "警察", "je": "👮", "animal": "うま", "ae": "🐴", "rarity": "N", "img": "25.jpg"}, {"id": 26, "name": "ヒカリヒツジホイク", "element": "ひかり", "ee": "✨", "job": "先生", "je": "📚", "animal": "ひつじ", "ae": "🐑", "rarity": "N", "img": "26.jpg"}, {"id": 27, "name": "ヤミコウモリスパイ", "element": "やみ", "ee": "🌑", "job": "スパイ", "je": "🕶️", "animal": "こうもり", "ae": "🦇", "rarity": "SR", "img": "27.jpg"}, {"id": 28, "name": "ホノオブタコック", "element": "ほのお", "ee": "🔥", "job": "コック", "je": "👨‍🍳", "animal": "ぶた", "ae": "🐷", "rarity": "N", "img": "28.jpg"}, {"id": 29, "name": "ミズタコセンチョウ", "element": "みず", "ee": "💧", "job": "船長", "je": "⚓", "animal": "たこ", "ae": "🐙", "rarity": "R", "img": "29.jpg"}, {"id": 30, "name": "クサリスユウビン", "element": "くさ", "ee": "🌿", "job": "郵便屋", "je": "📮", "animal": "りす", "ae": "🐿️", "rarity": "N", "img": "30.jpg"}],KEY="kaisei-garapon-kimokawa-v1";let S={spins:0,owned:[]},busy=false;
+const $=x=>document.getElementById(x);try{let z=JSON.parse(localStorage.getItem(KEY));if(z&&Array.isArray(z.owned))S={spins:+z.spins||0,owned:z.owned}}catch(e){}
+function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+function render(){ $("left").textContent=S.spins;$("ownedN").textContent=S.owned.length;$("spin").disabled=S.spins<1||busy;
+$("grid").innerHTML=C.map(c=>`<div class="card ${S.owned.includes(c.id)?"":"lock"}"><span class="rar">${c.rarity}</span><img src="${c.img}" alt=""><div class="cn">${c.name}</div></div>`).join("")}
+function pick(){let r=Math.random(),rar=r<.70?"N":r<.95?"R":"SR",p=C.filter(x=>x.rarity===rar);return p[Math.floor(Math.random()*p.length)]}
+function show(c,isNew){$("hero").innerHTML=`<img src="${c.img}" alt="${c.name}">`;$("name").textContent=c.name;$("meta").innerHTML=`<span class=tag>${c.ee} ${c.element}</span><span class=tag>${c.je} ${c.job}</span><span class=tag>${c.ae} ${c.animal}</span><span class=tag>${c.rarity}</span>${isNew?"<span class='tag new'>NEW!</span>":""}`}
+$("gear").onclick=()=>$("parent").classList.add("open");$("close").onclick=()=>$("parent").classList.remove("open");
+function add(n){S.spins=Math.min(99,S.spins+n);save();render();$("parent").classList.remove("open")}$("plus1").onclick=()=>add(1);$("plus3").onclick=()=>add(3);
+$("parent").onclick=e=>{if(e.target===$("parent"))$("parent").classList.remove("open")};
+$("reset").onclick=()=>{if(confirm("図鑑と回数を全部リセットしますか？")){S={spins:0,owned:[]};save();render();$("hero").innerHTML='<div class=q>?</div>';$("name").textContent="ガラポンしてみよう！";$("meta").innerHTML="";$("parent").classList.remove("open")}};
+$("spin").onclick=()=>{if(busy||S.spins<1)return;busy=true;S.spins--;save();render();$("name").textContent="ガラガラガラ…";setTimeout(()=>{let c=pick(),nw=!S.owned.includes(c.id);if(nw)S.owned.push(c.id);busy=false;save();show(c,nw);render()},850)};
+render();window.__GARAPON__={state:()=>S,add,pick};
+</script></body></html>
