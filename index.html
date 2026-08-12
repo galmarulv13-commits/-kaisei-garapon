@@ -5,7 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#fff7dc" />
   <title>凱政ガラポン</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  color: #2a2a2a;
+  background: #fff7dc;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top, #fffdf6 0, #fff7dc 55%, #ffeab0 100%); }
+button { font: inherit; touch-action: manipulation; }
+.app { width: min(720px, 100%); margin: 0 auto; padding: 18px 16px 48px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+h1 { margin: 0; font-size: clamp(28px, 8vw, 42px); letter-spacing: .03em; }
+.status-row { display: flex; align-items: center; gap: 8px; }
+.ticket { background: #fff; border: 3px solid #2a2a2a; border-radius: 999px; padding: 9px 14px; font-size: 18px; white-space: nowrap; box-shadow: 0 4px 0 #2a2a2a1f; }
+.small-btn { width: 46px; height: 46px; border-radius: 50%; border: 2px solid #2a2a2a; background: #fff; font-size: 22px; }
+.machine { margin: 24px 0; background: #fff; border: 4px solid #2a2a2a; border-radius: 28px; padding: 24px 18px 20px; text-align: center; box-shadow: 0 8px 0 #2a2a2a1f; }
+.ball { width: min(56vw, 260px); aspect-ratio: 1; margin: 0 auto 16px; display: grid; place-items: center; border-radius: 50%; border: 8px solid #2a2a2a; background: #f1f1f1; font-size: clamp(92px, 28vw, 150px); font-weight: 900; line-height: 1; box-shadow: inset 0 -14px 0 #00000012; transform-origin: center; }
+.ball.normal { background: #e9f0ff; }
+.ball.rare { background: #ffe28a; }
+.ball.superrare { background: #ffc8f1; }
+.ball.spinning { animation: shake .11s linear infinite, pulse .55s ease-in-out infinite alternate; }
+@keyframes shake { 0%{transform:rotate(-6deg) translateX(-3px)} 50%{transform:rotate(6deg) translateX(3px)} 100%{transform:rotate(-6deg) translateX(-3px)} }
+@keyframes pulse { from{scale:.94} to{scale:1.03} }
+.result { min-height: 56px; font-size: 26px; font-weight: 800; margin-bottom: 14px; }
+.rarity { display: inline-block; margin-left: 8px; padding: 3px 8px; border-radius: 999px; font-size: 14px; vertical-align: middle; border: 2px solid #2a2a2a; background:#fff; }
+.new-tag { display:inline-block; margin-left: 6px; padding: 2px 7px; border-radius: 999px; background:#ff5b5b; color:white; font-size:13px; vertical-align:middle; }
+.spin-btn { width: 100%; min-height: 88px; border: 5px solid #2a2a2a; border-radius: 24px; background: #ffcc33; box-shadow: 0 8px 0 #b48100; font-size: clamp(36px, 10vw, 54px); font-weight: 1000; cursor: pointer; }
+.spin-btn:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 3px 0 #b48100; }
+.spin-btn:disabled { opacity: .38; filter: grayscale(.4); box-shadow: none; }
+.hint { margin-top: 10px; font-size: 15px; color: #666; }
+.collection { background: #ffffffb8; border-radius: 22px; padding: 16px; border: 2px solid #2a2a2a; }
+.collection-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.collection-head h2 { margin:0; font-size:24px; }
+.grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:9px; }
+.card { aspect-ratio:1; border:2px solid #2a2a2a; border-radius:15px; display:grid; place-items:center; background:#fff; font-size:clamp(22px, 7vw, 34px); font-weight:900; position:relative; overflow:hidden; }
+.card.locked { color:transparent; background:#ececec; }
+.card.locked::after { content:"?"; color:#aaa; font-size:30px; }
+.card.normal { background:#e9f0ff; }
+.card.rare { background:#ffe28a; }
+.card.superrare { background:#ffc8f1; }
+.card .dot { position:absolute; width:9px; height:9px; border-radius:50%; top:5px; right:5px; background:#2a2a2a; opacity:.45; }
+.parent-panel { margin-top:18px; background:#fff; border:3px dashed #555; border-radius:20px; padding:18px; }
+.parent-panel.hidden { display:none; }
+.parent-panel h2 { margin-top:0; }
+.parent-actions { display:flex; gap:10px; }
+.parent-btn { flex:2; min-height:58px; border:3px solid #2a2a2a; border-radius:16px; background:#9ce59c; font-weight:900; font-size:22px; }
+.parent-btn.secondary { flex:1; background:#cde5ff; }
+.text-btn { margin-top:18px; border:0; background:transparent; text-decoration:underline; color:#9a1f1f; }
+.parent-note { color:#777; font-size:13px; margin-bottom:0; }
+dialog { border:0; background:transparent; }
+dialog::backdrop { background:#0008; }
+.dialog-card { background:#fff; border:3px solid #222; border-radius:20px; padding:22px; max-width:360px; }
+.dialog-actions { display:flex; gap:10px; }
+.secondary-btn,.danger-btn { flex:1; min-height:48px; border:2px solid #222; border-radius:12px; font-weight:800; }
+.danger-btn { background:#ff7070; }
+.secondary-btn { background:#eee; }
+@media (max-width:420px) { .grid{grid-template-columns:repeat(4,1fr)} header{align-items:flex-start} .ticket{font-size:16px;padding:8px 10px} }
+
+</style>
 </head>
 <body>
   <main class="app">
@@ -54,6 +112,139 @@
     </form>
   </dialog>
 
-  <script src="app.js"></script>
+  <script>
+(() => {
+  const STORAGE_KEY = 'kaisei-garapon-v1';
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const normal = alphabet.slice(0, 18);      // A-R
+  const rare = alphabet.slice(18, 24);       // S-X
+  const superrare = alphabet.slice(24, 26);  // Y-Z
+
+  const characterRarity = Object.fromEntries([
+    ...normal.map(c => [c, 'normal']),
+    ...rare.map(c => [c, 'rare']),
+    ...superrare.map(c => [c, 'superrare'])
+  ]);
+
+  const rarityLabel = { normal: 'ノーマル', rare: 'レア', superrare: 'スーパーレア' };
+  const defaultState = { spins: 0, owned: [] };
+
+  let state = loadState();
+  let spinning = false;
+
+  const $ = (id) => document.getElementById(id);
+  const spinsLeft = $('spinsLeft');
+  const spinBtn = $('spinBtn');
+  const ball = $('ball');
+  const result = $('result');
+  const needTicket = $('needTicket');
+  const ownedCount = $('ownedCount');
+  const collectionGrid = $('collectionGrid');
+  const parentToggle = $('parentToggle');
+  const parentPanel = $('parentPanel');
+  const resetDialog = $('resetDialog');
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { ...defaultState };
+      const parsed = JSON.parse(raw);
+      return {
+        spins: Number.isInteger(parsed.spins) && parsed.spins >= 0 ? parsed.spins : 0,
+        owned: Array.isArray(parsed.owned) ? [...new Set(parsed.owned.filter(x => alphabet.includes(x)))] : []
+      };
+    } catch {
+      return { ...defaultState };
+    }
+  }
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function rarityFor(c) { return characterRarity[c]; }
+
+  function drawCharacter() {
+    const roll = Math.random();
+    const pool = roll < 0.70 ? normal : roll < 0.95 ? rare : superrare;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function render() {
+    spinsLeft.textContent = state.spins;
+    ownedCount.textContent = state.owned.length;
+    spinBtn.disabled = state.spins <= 0 || spinning;
+    needTicket.hidden = state.spins > 0;
+
+    collectionGrid.replaceChildren(...alphabet.map(c => {
+      const div = document.createElement('div');
+      const unlocked = state.owned.includes(c);
+      div.className = `card ${unlocked ? rarityFor(c) : 'locked'}`;
+      div.setAttribute('aria-label', unlocked ? `${c} ${rarityLabel[rarityFor(c)]}` : 'まだ見つけていない');
+      if (unlocked) {
+        div.textContent = c;
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        div.appendChild(dot);
+      }
+      return div;
+    }));
+  }
+
+  function addSpins(n) {
+    state.spins = Math.min(99, state.spins + n);
+    saveState();
+    render();
+  }
+
+  async function spin() {
+    if (spinning || state.spins <= 0) return;
+    spinning = true;
+    state.spins -= 1;
+    saveState();
+    render();
+
+    ball.className = 'ball spinning';
+    ball.textContent = '?';
+    result.textContent = 'ガラガラガラ…';
+
+    const preview = alphabet;
+    let i = 0;
+    const interval = setInterval(() => { ball.textContent = preview[i++ % preview.length]; }, 70);
+    await new Promise(resolve => setTimeout(resolve, 1100));
+    clearInterval(interval);
+
+    const c = drawCharacter();
+    const rarity = rarityFor(c);
+    const isNew = !state.owned.includes(c);
+    if (isNew) state.owned.push(c);
+    saveState();
+
+    ball.className = `ball ${rarity}`;
+    ball.textContent = c;
+    result.innerHTML = `${c} がでた！ <span class="rarity">${rarityLabel[rarity]}</span>${isNew ? '<span class="new-tag">NEW!</span>' : ''}`;
+
+    spinning = false;
+    render();
+  }
+
+  spinBtn.addEventListener('click', spin);
+  $('addOne').addEventListener('click', () => addSpins(1));
+  $('addThree').addEventListener('click', () => addSpins(3));
+  parentToggle.addEventListener('click', () => parentPanel.classList.toggle('hidden'));
+  $('resetBtn').addEventListener('click', () => resetDialog.showModal());
+  $('confirmReset').addEventListener('click', () => {
+    state = { ...defaultState, owned: [] };
+    localStorage.removeItem(STORAGE_KEY);
+    ball.className = 'ball';
+    ball.textContent = '?';
+    result.textContent = 'ガラポンしてみよう！';
+    render();
+  });
+
+  render();
+})();
+
+</script>
 </body>
 </html>
