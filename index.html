@@ -48,6 +48,11 @@ h1 { margin: 0; font-size: clamp(28px, 8vw, 42px); letter-spacing: .03em; }
 .card .dot { position:absolute; width:9px; height:9px; border-radius:50%; top:5px; right:5px; background:#2a2a2a; opacity:.45; }
 .parent-panel { margin-top:18px; background:#fff; border:3px dashed #555; border-radius:20px; padding:18px; }
 .parent-panel.hidden { display:none; }
+#parentDialog { padding:0; width:min(92vw,420px); }
+#parentDialog::backdrop { background:#0008; }
+.parent-dialog-card { width:100%; }
+.parent-dialog-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.parent-dialog-head h2 { margin:0; font-size:26px; }
 .parent-panel h2 { margin-top:0; }
 .parent-actions { display:flex; gap:10px; }
 .parent-btn { flex:2; min-height:58px; border:3px solid #2a2a2a; border-radius:16px; background:#9ce59c; font-weight:900; font-size:22px; }
@@ -90,15 +95,20 @@ dialog::backdrop { background:#0008; }
       <div id="collectionGrid" class="grid"></div>
     </section>
 
-    <section id="parentPanel" class="parent-panel hidden">
-      <h2>おうちの人メニュー</h2>
-      <div class="parent-actions">
-        <button id="addOne" class="parent-btn">ガラポン ＋1</button>
-        <button id="addThree" class="parent-btn secondary">＋3</button>
+    <dialog id="parentDialog">
+      <div class="dialog-card parent-dialog-card">
+        <div class="parent-dialog-head">
+          <h2>おうちの人メニュー</h2>
+          <button id="closeParent" class="small-btn" aria-label="閉じる">×</button>
+        </div>
+        <div class="parent-actions">
+          <button id="addOne" class="parent-btn">ガラポン ＋1</button>
+          <button id="addThree" class="parent-btn secondary">＋3</button>
+        </div>
+        <button id="resetBtn" class="text-btn">データをリセット</button>
+        <p class="parent-note">※ この端末のブラウザに記録されます。</p>
       </div>
-      <button id="resetBtn" class="text-btn">データをリセット</button>
-      <p class="parent-note">※ この端末のブラウザに記録されます。</p>
-    </section>
+    </dialog>
   </main>
 
   <dialog id="resetDialog">
@@ -141,7 +151,7 @@ dialog::backdrop { background:#0008; }
   const ownedCount = $('ownedCount');
   const collectionGrid = $('collectionGrid');
   const parentToggle = $('parentToggle');
-  const parentPanel = $('parentPanel');
+  const parentDialog = $('parentDialog');
   const resetDialog = $('resetDialog');
 
   function loadState() {
@@ -231,7 +241,11 @@ dialog::backdrop { background:#0008; }
   spinBtn.addEventListener('click', spin);
   $('addOne').addEventListener('click', () => addSpins(1));
   $('addThree').addEventListener('click', () => addSpins(3));
-  parentToggle.addEventListener('click', () => parentPanel.classList.toggle('hidden'));
+  parentToggle.addEventListener('click', () => parentDialog.showModal());
+  $('closeParent').addEventListener('click', () => parentDialog.close());
+  parentDialog.addEventListener('click', (e) => {
+    if (e.target === parentDialog) parentDialog.close();
+  });
   $('resetBtn').addEventListener('click', () => resetDialog.showModal());
   $('confirmReset').addEventListener('click', () => {
     state = { ...defaultState, owned: [] };
