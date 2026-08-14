@@ -54,21 +54,16 @@
 .resultStat{padding:7px}
 .resultStat .num{font-size:30px}
 
-/* 5秒ガラポン演出 */
-.garaponShake{animation:garaponShake .11s infinite alternate}
-@keyframes garaponShake{from{transform:translateX(-5px) rotate(-1.5deg)}to{transform:translateX(5px) rotate(1.5deg)}}
-.garaponSlow{animation:garaponSlow .28s infinite alternate}
-@keyframes garaponSlow{from{transform:translateX(-2px) rotate(-.5deg)}to{transform:translateX(2px) rotate(.5deg)}}
-.revealFlash{animation:revealFlash .55s ease-out}
-@keyframes revealFlash{0%{opacity:0;transform:scale(.78)}55%{opacity:1;transform:scale(1.06)}100%{transform:scale(1)}}
-.rareFlash{animation:rareFlash .9s ease-out}
-@keyframes rareFlash{0%{filter:brightness(2.3);transform:scale(.72)}45%{filter:brightness(1.35);transform:scale(1.08)}100%{filter:none;transform:scale(1)}}
-.srFlash{animation:srFlash 1.1s ease-out}
-@keyframes srFlash{0%{opacity:0;filter:brightness(3);transform:scale(.6) rotate(-2deg)}35%{opacity:1;filter:brightness(1.8);transform:scale(1.12) rotate(1deg)}70%{transform:scale(.98)}100%{filter:none;transform:scale(1)}}
-.spinStatus{font-size:18px;font-weight:1000;min-height:28px;margin:4px 0 8px}
-
+.garaponShake{animation:garaponShake .12s infinite alternate}
+@keyframes garaponShake{from{transform:translateX(-4px) rotate(-1deg)}to{transform:translateX(4px) rotate(1deg)}}
+.revealNormal{animation:revealNormal .55s ease-out}
+@keyframes revealNormal{0%{opacity:0;transform:scale(.82)}70%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+.revealRare{animation:revealRare .8s ease-out}
+@keyframes revealRare{0%{opacity:0;filter:brightness(2);transform:scale(.72)}55%{opacity:1;transform:scale(1.08)}100%{filter:none;transform:scale(1)}}
+.revealSR{animation:revealSR 1s ease-out}
+@keyframes revealSR{0%{opacity:0;filter:brightness(3);transform:scale(.6)}45%{opacity:1;transform:scale(1.12)}100%{filter:none;transform:scale(1)}}
 </style></head><body><main class='app'><header><h1>凱政50音ガラポン</h1><div class='top'><div class='pill'>あと <b id='left'>0</b> 回</div><button id='gear' class='gear'>⚙️</button></div></header>
-<section class='machine'><div id='hero' class='hero'><div class='q'>?</div></div><div id='name' class='name'>ガラポンしてみよう！</div><div id='tags' class='tags'></div><div id='stats' class='stats' style='display:none'></div><div id='spinStatus' class='spinStatus'></div><button id='spin' class='spin' disabled>ガラポン！</button><p class='hint'>おうちの人に回数をもらってね</p></section>
+<section class='machine'><div id='hero' class='hero'><div class='q'>?</div></div><div id='name' class='name'>ガラポンしてみよう！</div><div id='tags' class='tags'></div><div id='stats' class='stats' style='display:none'></div><div id='spinStatus' style='font-size:18px;font-weight:900;min-height:28px;margin:4px 0 8px'></div><button id='spin' class='spin' disabled>ガラポン！</button><p class='hint'>おうちの人に回数をもらってね</p></section>
 <section class='book'><div class='bh'><h2>50音ずかん</h2><b><span id='ownedN'>0</span> / 46</b></div><div id='grid' class='grid'></div></section></main>
 <div id='parent' class='overlay'><div class='panel'><div class='ph'><h2>おうちの人メニュー</h2><button id='close' class='close'>×</button></div><div class='actions'><button id='plus1' class='add'>＋1回</button><button id='plus3' class='add'>＋3回</button></div><button id='reset' class='reset'>図鑑と回数をリセット</button></div></div>
 
@@ -139,74 +134,109 @@ function add(n){S.spins=Math.min(99,S.spins+n);save();render();$('parent').class
 $('detailClose').onclick=()=>{$('detailOverlay').classList.remove('open');$('detailOverlay').setAttribute('aria-hidden','true')};
 $('detailOverlay').onclick=e=>{if(e.target===$('detailOverlay'))$('detailClose').click()};
 
-$('reset').onclick=()=>{if(confirm('図鑑と回数を全部リセットしますか？')){S={spins:0,owned:[]};save();$('hero').innerHTML='<div class=q>?</div>';$('hero').style.height='min(82vw,390px)';$('name').textContent='ガラポンしてみよう！';if($('spinStatus'))$('spinStatus').textContent='';$('tags').innerHTML='';$('stats').style.display='none';render();$('parent').classList.remove('open')}};
+$('reset').onclick=()=>{if(confirm('図鑑と回数を全部リセットしますか？')){S={spins:0,owned:[]};save();$('hero').innerHTML='<div class=q>?</div>';$('hero').style.height='min(82vw,390px)';$('name').textContent='ガラポンしてみよう！';$('tags').innerHTML='';$('stats').style.display='none';render();$('parent').classList.remove('open')}};
 
-let audioCtx=null,garagaraTimer=null;
-function ensureAudio(){
+let audioCtx=null, rattleTimer=null;
+function safeAudioInit(){
   try{
-    if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-    if(audioCtx.state==='suspended') audioCtx.resume();
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    if(!audioCtx)audioCtx=new AC();
+    if(audioCtx.state==='suspended'){audioCtx.resume().catch(()=>{});}
   }catch(e){}
 }
-function noiseBurst(duration=.055,volume=.055,freq=900){
-  if(!audioCtx)return;
+function safeTone(freq=500,dur=.06,vol=.04){
   try{
-    const now=audioCtx.currentTime,osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
-    osc.type='triangle';osc.frequency.setValueAtTime(freq,now);
-    osc.frequency.exponentialRampToValueAtTime(Math.max(100,freq*.45),now+duration);
-    gain.gain.setValueAtTime(volume,now);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
-    osc.connect(gain);gain.connect(audioCtx.destination);osc.start(now);osc.stop(now+duration);
+    if(!audioCtx)return;
+    const now=audioCtx.currentTime;
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type='triangle';o.frequency.value=freq;
+    g.gain.setValueAtTime(vol,now);g.gain.exponentialRampToValueAtTime(.0001,now+dur);
+    o.connect(g);g.connect(audioCtx.destination);o.start(now);o.stop(now+dur);
   }catch(e){}
 }
-function startGaragara(){
-  stopGaragara();let step=0;
-  garagaraTimer=setInterval(()=>{noiseBurst(.045,.045,650+(step%5)*105+Math.random()*90);step++},95);
+function startRattle(){
+  try{
+    stopRattle();let n=0;
+    rattleTimer=setInterval(()=>{safeTone(520+(n++%6)*80,.035,.028)},110);
+  }catch(e){}
 }
-function stopGaragara(){if(garagaraTimer){clearInterval(garagaraTimer);garagaraTimer=null}}
-function playKoron(){noiseBurst(.11,.10,520);setTimeout(()=>noiseBurst(.18,.085,310),90)}
-function playRare(){[740,990,1320].forEach((f,i)=>setTimeout(()=>noiseBurst(.13,.065,f),i*90))}
-function playSR(){[520,780,1040,1560].forEach((f,i)=>setTimeout(()=>noiseBurst(.16,.075,f),i*100))}
+function stopRattle(){try{if(rattleTimer){clearInterval(rattleTimer);rattleTimer=null}}catch(e){}}
+function soundKoron(){safeTone(520,.1,.07);setTimeout(()=>safeTone(300,.16,.06),80)}
+function soundRare(){[700,950,1250].forEach((f,i)=>setTimeout(()=>safeTone(f,.12,.05),i*90))}
+function soundSR(){[500,750,1000,1500].forEach((f,i)=>setTimeout(()=>safeTone(f,.14,.06),i*85))}
 
 $('spin').onclick=()=>{
   if(busy||S.spins<1)return;
-  ensureAudio();busy=true;S.spins--;save();render();
 
-  const hero=$('hero'),status=$('spinStatus');
-  hero.style.height='min(82vw,390px)';
-  hero.classList.remove('revealFlash','rareFlash','srFlash','garaponSlow');
-  hero.classList.add('garaponShake');
-  $('name').textContent='ガラガラガラ…';
-  $('tags').innerHTML='';$('stats').style.display='none';
-  status.textContent='なにが出るかな…？';
-  startGaragara();
+  busy=true;S.spins--;save();render();
 
-  let t=0;
-  const previewTimer=setInterval(()=>{
-    const c=C[t++%C.length];
-    hero.innerHTML=`<div class="kanaBig">${c.kana}</div><img src="${c.img}" alt="">`;
-  },115);
+  const chosen=pick();
+  const isNew=!S.owned.includes(chosen.id);
+  const hero=$('hero');
+  const status=$('spinStatus');
 
-  setTimeout(()=>{
-    stopGaragara();hero.classList.remove('garaponShake');hero.classList.add('garaponSlow');
-    status.textContent='……そろそろ出るぞ';
-    noiseBurst(.09,.06,480);setTimeout(()=>noiseBurst(.10,.055,390),350);setTimeout(()=>noiseBurst(.12,.05,300),700);
-  },3600);
+  // 最重要：先に「必ず5秒後に終わる」タイマーを予約する。
+  // 途中の音・画像切替に失敗しても、この処理は独立して動く。
+  let finished=false;
+  const finishSpin=()=>{
+    if(finished)return;
+    finished=true;
+    try{stopRattle()}catch(e){}
+    try{
+      if(isNew)S.owned.push(chosen.id);
+      save();
+      busy=false;
+      show(chosen,isNew);
+      hero.classList.remove('garaponShake','revealNormal','revealRare','revealSR');
+      if(chosen.rarity==='SR'){
+        hero.classList.add('revealSR'); if(status)status.textContent='スーパーレア！！'; soundSR();
+      }else if(chosen.rarity==='R'){
+        hero.classList.add('revealRare'); if(status)status.textContent='レア！'; soundRare();
+      }else{
+        hero.classList.add('revealNormal'); if(status)status.textContent='ゲット！'; safeTone(720,.15,.05);
+      }
+      render();
+    }catch(e){
+      // 最終表示で何か起きても、最低限名前だけは出してbusyを解除する。
+      busy=false;
+      try{$('name').textContent=chosen.name;render()}catch(_){}
+    }
+  };
+  setTimeout(finishSpin,5000);
 
-  setTimeout(()=>{
-    clearInterval(previewTimer);hero.classList.remove('garaponSlow');playKoron();
-    status.textContent='コロン！';hero.innerHTML='<div class="q">●</div>';
-  },4550);
+  // 以下は全部「失敗しても本体に影響しない」おまけ演出。
+  try{
+    safeAudioInit();
+    startRattle();
+    hero.style.height='min(82vw,390px)';
+    hero.classList.add('garaponShake');
+    $('name').textContent='ガラガラガラ…';
+    $('tags').innerHTML='';
+    $('stats').style.display='none';
+    if(status)status.textContent='なにが出るかな…？';
 
-  setTimeout(()=>{
-    const c=pick(),nw=!S.owned.includes(c.id);
-    if(nw)S.owned.push(c.id);
-    busy=false;save();show(c,nw);
-    hero.classList.remove('garaponShake','garaponSlow','revealFlash','rareFlash','srFlash');
-    if(c.rarity==='SR'){playSR();hero.classList.add('srFlash');status.textContent='スーパーレア！！'}
-    else if(c.rarity==='R'){playRare();hero.classList.add('rareFlash');status.textContent='レア！'}
-    else{noiseBurst(.16,.06,720);hero.classList.add('revealFlash');status.textContent='ゲット！'}
-    render();
-  },5000);
+    let t=0;
+    const preview=setInterval(()=>{
+      try{
+        const c=C[t++%C.length];
+        hero.innerHTML=`<div class="kanaBig">${c.kana}</div><img src="${c.img}" alt="">`;
+      }catch(e){}
+    },140);
+
+    setTimeout(()=>{
+      try{
+        clearInterval(preview);
+        stopRattle();
+        hero.classList.remove('garaponShake');
+        if(status)status.textContent='……コロン！';
+        soundKoron();
+        hero.innerHTML='<div class="q">●</div>';
+      }catch(e){}
+    },4400);
+  }catch(e){
+    // 何もしない。5秒後のfinishSpinが必ず残っている。
+  }
 };
 render();window.__GARAPON__={state:()=>S,add,pick,chars:C};
 </script></body></html>
