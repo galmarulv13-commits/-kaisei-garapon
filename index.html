@@ -1,41 +1,116 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>凱政ガラポン</title><style>
-*{box-sizing:border-box}body{margin:0;background:#fff3c8;color:#282828;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
-.app{max-width:680px;margin:auto;padding:18px 14px 60px}header{display:flex;justify-content:space-between;align-items:center;gap:8px}
-h1{font-size:clamp(28px,8vw,42px);margin:0}.top{display:flex;gap:8px;align-items:center}.pill,.gear{background:#fff;border:3px solid #282828;box-shadow:0 4px #0002}
-.pill{border-radius:99px;padding:8px 12px;white-space:nowrap}.gear{width:50px;height:50px;border-radius:50%;font-size:24px}
-.machine,.book{background:#fffdf7;border:4px solid #282828;border-radius:28px;box-shadow:0 8px #0002}.machine{margin-top:18px;padding:18px;text-align:center}
-.hero{height:min(78vw,390px);display:flex;align-items:center;justify-content:center}.hero img{width:100%;height:100%;object-fit:contain;border-radius:18px}
-.q{font-size:140px;font-weight:900}.name{font-size:clamp(27px,8vw,40px);font-weight:900;min-height:52px}.meta{min-height:64px}
-.tag{display:inline-block;border:2px solid #333;border-radius:99px;padding:4px 8px;margin:3px;font-weight:800;font-size:13px}.new{background:#f25560;color:#fff}
-.spin{width:100%;min-height:92px;border:5px solid #282828;border-radius:24px;background:#ffca28;box-shadow:0 8px #a87600;font-size:clamp(36px,10vw,54px);font-weight:1000}
-.spin:disabled{opacity:.32;box-shadow:none}.hint{color:#666}.book{margin-top:20px;padding:15px}.bookHead{display:flex;justify-content:space-between;align-items:center}
-.book h2{margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.card{position:relative;border:2px solid #333;border-radius:14px;background:#fff;overflow:hidden;min-height:135px}
-.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.card.lock img{filter:brightness(0);opacity:.14}.card.lock:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font-size:48px;font-weight:900;color:#999}
-.cn{text-align:center;font-size:9px;font-weight:900;padding:3px}.card.lock .cn{visibility:hidden}.rar{position:absolute;top:4px;right:4px;background:#fff;border-radius:99px;padding:2px 5px;font-size:9px;font-weight:900;z-index:2}
-.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.overlay.open{display:flex}.panel{width:min(420px,100%);background:#fffaf0;border:4px solid #282828;border-radius:24px;padding:20px}
-.ph{display:flex;justify-content:space-between;align-items:center}.ph h2{margin:0}.close{width:44px;height:44px;border:3px solid #282828;border-radius:50%;background:#fff;font-size:25px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.add{min-height:74px;border:3px solid #282828;border-radius:18px;background:#a8e7a8;font-size:25px;font-weight:900}.add:nth-child(2){background:#cde6ff}
-.reset{width:100%;margin-top:18px;min-height:48px;border:2px solid #922;border-radius:14px;background:#fff;color:#922;font-weight:800}
-@media(min-width:540px){.grid{grid-template-columns:repeat(5,1fr)}}
-</style></head><body><main class="app">
-<header><h1>凱政ガラポン</h1><div class="top"><div class="pill">あと <b id="left">0</b> 回</div><button class="gear" id="gear">⚙️</button></div></header>
-<section class="machine"><div class="hero" id="hero"><div class="q">?</div></div><div class="name" id="name">ガラポンしてみよう！</div><div class="meta" id="meta"></div><button class="spin" id="spin" disabled>ガラポン！</button><p class="hint">おうちの人に回数をもらってね</p></section>
-<section class="book"><div class="bookHead"><h2>ずかん</h2><b><span id="ownedN">0</span> / 30</b></div><div class="grid" id="grid"></div></section></main>
-<div class="overlay" id="parent"><div class="panel"><div class="ph"><h2>おうちの人メニュー</h2><button class="close" id="close">×</button></div><div class="actions"><button class="add" id="plus1">＋1回</button><button class="add" id="plus3">＋3回</button></div><button class="reset" id="reset">図鑑と回数をリセット</button></div></div>
+<!doctype html><html lang='ja'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no'>
+<title>凱政50音ガラポン</title><style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(#fff9e8,#ffedac);color:#292929;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif}
+.app{max-width:680px;margin:auto;padding:14px 13px 60px}header{display:flex;justify-content:space-between;align-items:center;gap:8px}h1{font-size:clamp(25px,7vw,40px);margin:0}
+.top{display:flex;gap:7px;align-items:center}.pill,.gear{background:#fff;border:3px solid #292929;box-shadow:0 4px #0002}.pill{padding:8px 11px;border-radius:99px;white-space:nowrap}.gear{width:48px;height:48px;border-radius:50%;font-size:23px}
+.machine{margin-top:16px;background:#fff;border:4px solid #292929;border-radius:27px;padding:15px;text-align:center;box-shadow:0 8px #0002}.hero{height:min(82vw,390px);display:flex;justify-content:center;align-items:center;position:relative}.hero img{width:100%;height:100%;object-fit:contain}
+.kanaBig{position:absolute;top:4px;left:4px;width:74px;height:74px;border:5px solid #292929;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:48px;font-weight:1000}.q{font-size:130px;font-weight:1000}
+.name{font-size:clamp(28px,8vw,40px);font-weight:1000;min-height:50px}.nameKana{display:inline-grid;place-items:center;width:1.2em;height:1.2em;border:3px solid #292929;border-radius:50%;margin-right:4px;background:#fff}
+.tags{min-height:58px}.tag{display:inline-block;border:2px solid #333;border-radius:99px;padding:4px 8px;margin:3px;font-size:13px;font-weight:900}.new{background:#f35662;color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px auto 13px;max-width:350px}.stat{border:2px solid #333;border-radius:14px;background:#fff7ea;padding:7px;font-weight:900}.atk{color:#c4372c}.def{color:#245aaa}.stat b{display:block;color:#292929;font-size:25px}
+.spin{width:100%;min-height:88px;border:5px solid #292929;border-radius:24px;background:#ffcb28;box-shadow:0 8px #a87800;font-size:clamp(35px,10vw,52px);font-weight:1000}.spin:disabled{opacity:.32;box-shadow:none}.hint{color:#666;font-size:14px}
+.book{margin-top:19px;background:#fffdf5;border:4px solid #292929;border-radius:25px;padding:14px}.bh{display:flex;justify-content:space-between;align-items:center}.bh h2{margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.card{position:relative;border:2px solid #292929;border-radius:13px;background:#fff;overflow:hidden;min-height:116px}.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.card.lock img{filter:brightness(0);opacity:.13}.card.lock:after{content:attr(data-kana);position:absolute;inset:0 0 18px;display:grid;place-items:center;font-size:35px;font-weight:1000;color:#aaa}.cn{font-size:8px;text-align:center;font-weight:900;padding:3px;white-space:nowrap;overflow:hidden}.card.lock .cn{visibility:hidden}
+.circleKana{position:absolute;top:4px;left:4px;width:27px;height:27px;border:2px solid #292929;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:17px;font-weight:1000;z-index:3}.rar{position:absolute;top:4px;right:4px;padding:2px 5px;border-radius:99px;background:#fff;font-size:8px;font-weight:1000;z-index:3}
+.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.overlay.open{display:flex}.panel{width:min(420px,100%);background:#fffaf0;border:4px solid #292929;border-radius:24px;padding:20px}.ph{display:flex;justify-content:space-between;align-items:center}.ph h2{margin:0}.close{width:44px;height:44px;border:3px solid #292929;border-radius:50%;background:#fff;font-size:24px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.add{min-height:70px;border:3px solid #292929;border-radius:17px;font-size:24px;font-weight:1000;background:#a7e6a7}.add:nth-child(2){background:#cce5ff}.reset{width:100%;margin-top:18px;min-height:46px;border:2px solid #922;background:#fff;color:#922;border-radius:13px;font-weight:900}
+
+.resultCard{width:100%;max-width:420px;margin:0 auto 12px;background:#fff8e8;border:4px solid #292929;border-radius:24px;padding:12px;box-shadow:0 8px #0002;text-align:left}
+.resultTop{display:flex;align-items:center;gap:10px}
+.resultKana{width:64px;height:64px;flex:0 0 64px;border:4px solid #292929;border-radius:50%;display:grid;place-items:center;background:#fff;font-size:42px;font-weight:1000}
+.resultTitle{font-size:clamp(26px,7vw,38px);font-weight:1000;line-height:1.05}
+.resultRarity{margin-left:auto;border:3px solid #292929;border-radius:12px;background:#ffe39b;padding:5px 8px;font-weight:1000}
+.resultImageWrap{height:min(72vw,320px);display:flex;align-items:center;justify-content:center;margin:6px 0}
+.resultImageWrap img{width:100%;height:100%;object-fit:contain}
+.resultMeta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.metaBox{border:2px solid #292929;border-radius:14px;background:#fff;padding:8px;font-weight:900;text-align:center}
+.metaLabel{font-size:12px;color:#666;display:block;margin-bottom:2px}
+.resultStats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.resultStat{border:3px solid #292929;border-radius:14px;background:#fff;padding:8px;text-align:center;font-weight:1000}
+.resultStat .num{display:block;font-size:28px;color:#292929}
+.resultStat.atk{color:#c4372c}.resultStat.def{color:#245aaa}
+.card{min-height:150px}.card img{aspect-ratio:1/1;object-fit:contain;background:#fffaf0;padding:4px}
+.cardFooter{padding:4px 5px 6px;border-top:1px solid #ddd;background:#fffdf8}
+.cardName2{font-size:8px;font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cardMini{display:flex;justify-content:space-between;gap:4px;font-size:8px;font-weight:900;margin-top:2px}
+.cardMini .a{color:#c4372c}.cardMini .d{color:#245aaa}
+.card.lock .cardFooter{visibility:hidden}
+.card.lock:after{inset:0}
+.detailOverlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:60}
+.detailOverlay.open{display:flex}
+.detailCard{width:min(460px,100%);max-height:88vh;overflow:auto;background:#fff8e8;border:4px solid #292929;border-radius:24px;padding:14px}
+.detailClose{float:right;width:42px;height:42px;border:3px solid #292929;border-radius:50%;background:#fff;font-size:24px;font-weight:1000}
+
+</style></head><body><main class='app'><header><h1>凱政50音ガラポン</h1><div class='top'><div class='pill'>あと <b id='left'>0</b> 回</div><button id='gear' class='gear'>⚙️</button></div></header>
+<section class='machine'><div id='hero' class='hero'><div class='q'>?</div></div><div id='name' class='name'>ガラポンしてみよう！</div><div id='tags' class='tags'></div><div id='stats' class='stats' style='display:none'></div><button id='spin' class='spin' disabled>ガラポン！</button><p class='hint'>おうちの人に回数をもらってね</p></section>
+<section class='book'><div class='bh'><h2>50音ずかん</h2><b><span id='ownedN'>0</span> / 46</b></div><div id='grid' class='grid'></div></section></main>
+<div id='parent' class='overlay'><div class='panel'><div class='ph'><h2>おうちの人メニュー</h2><button id='close' class='close'>×</button></div><div class='actions'><button id='plus1' class='add'>＋1回</button><button id='plus3' class='add'>＋3回</button></div><button id='reset' class='reset'>図鑑と回数をリセット</button></div></div>
+
+<div id="detailOverlay" class="detailOverlay" aria-hidden="true">
+  <div class="detailCard">
+    <button id="detailClose" class="detailClose" type="button">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
 <script>
-const C=[{"id": 1, "name": "ホノイヌジャ", "element": "ほのお", "ee": "🔥", "job": "忍者", "je": "🥷", "animal": "いぬ", "ae": "🐶", "rarity": "N", "img": "01.jpg"}, {"id": 2, "name": "ミズネコポリス", "element": "みず", "ee": "💧", "job": "警察", "je": "👮", "animal": "ねこ", "ae": "🐱", "rarity": "N", "img": "02.jpg"}, {"id": 3, "name": "クサリュウジエイ", "element": "くさ", "ee": "🌿", "job": "自衛隊", "je": "🪖", "animal": "恐竜", "ae": "🦖", "rarity": "SR", "img": "03.jpg"}, {"id": 4, "name": "コオリペンショウ", "element": "こおり", "ee": "❄️", "job": "消防", "je": "🚒", "animal": "ペンギン", "ae": "🐧", "rarity": "R", "img": "04.jpg"}, {"id": 5, "name": "デンキウサレスキュ", "element": "でんき", "ee": "⚡", "job": "救助隊", "je": "⛑️", "animal": "うさぎ", "ae": "🐰", "rarity": "R", "img": "05.jpg"}, {"id": 6, "name": "ツチクマダイク", "element": "じめん", "ee": "🪨", "job": "大工", "je": "🔨", "animal": "くま", "ae": "🐻", "rarity": "N", "img": "06.jpg"}, {"id": 7, "name": "カゼトリヒコウ", "element": "かぜ", "ee": "🌪️", "job": "パイロット", "je": "✈️", "animal": "とり", "ae": "🐦", "rarity": "N", "img": "07.jpg"}, {"id": 8, "name": "ヒカリキツネイシャ", "element": "ひかり", "ee": "✨", "job": "お医者さん", "je": "🩺", "animal": "きつね", "ae": "🦊", "rarity": "R", "img": "08.jpg"}, {"id": 9, "name": "ヤミサメニンジャ", "element": "やみ", "ee": "🌑", "job": "忍者", "je": "🥷", "animal": "さめ", "ae": "🦈", "rarity": "R", "img": "09.jpg"}, {"id": 10, "name": "ホノオサルカラテ", "element": "ほのお", "ee": "🔥", "job": "空手家", "je": "🥋", "animal": "さる", "ae": "🐵", "rarity": "N", "img": "10.jpg"}, {"id": 11, "name": "ミズカメセンチョウ", "element": "みず", "ee": "💧", "job": "船長", "je": "⚓", "animal": "かめ", "ae": "🐢", "rarity": "N", "img": "11.jpg"}, {"id": 12, "name": "クサカエルノウカ", "element": "くさ", "ee": "🌿", "job": "農家", "je": "🚜", "animal": "かえる", "ae": "🐸", "rarity": "N", "img": "12.jpg"}, {"id": 13, "name": "コオリシロクマケイ", "element": "こおり", "ee": "❄️", "job": "警察", "je": "👮", "animal": "しろくま", "ae": "🐻‍❄️", "rarity": "R", "img": "13.jpg"}, {"id": 14, "name": "デンキライオンデン", "element": "でんき", "ee": "⚡", "job": "電気屋", "je": "🔧", "animal": "ライオン", "ae": "🦁", "rarity": "R", "img": "14.jpg"}, {"id": 15, "name": "ツチワニジエイ", "element": "じめん", "ee": "🪨", "job": "自衛隊", "je": "🪖", "animal": "わに", "ae": "🐊", "rarity": "N", "img": "15.jpg"}, {"id": 16, "name": "カゼネコハイタツ", "element": "かぜ", "ee": "🌪️", "job": "配達員", "je": "📦", "animal": "ねこ", "ae": "🐱", "rarity": "N", "img": "16.jpg"}, {"id": 17, "name": "ヒカリイヌエキイン", "element": "ひかり", "ee": "✨", "job": "駅員", "je": "🚉", "animal": "いぬ", "ae": "🐶", "rarity": "N", "img": "17.jpg"}, {"id": 18, "name": "ヤミフクロウタンテイ", "element": "やみ", "ee": "🌑", "job": "探偵", "je": "🔎", "animal": "ふくろう", "ae": "🦉", "rarity": "R", "img": "18.jpg"}, {"id": 19, "name": "ホノオトラショウボウ", "element": "ほのお", "ee": "🔥", "job": "消防", "je": "🚒", "animal": "とら", "ae": "🐯", "rarity": "R", "img": "19.jpg"}, {"id": 20, "name": "ミズイルカレスキュ", "element": "みず", "ee": "💧", "job": "救助隊", "je": "⛑️", "animal": "いるか", "ae": "🐬", "rarity": "R", "img": "20.jpg"}, {"id": 21, "name": "クサパンダコック", "element": "くさ", "ee": "🌿", "job": "コック", "je": "👨‍🍳", "animal": "パンダ", "ae": "🐼", "rarity": "N", "img": "21.jpg"}, {"id": 22, "name": "コオリキツネタンケン", "element": "こおり", "ee": "❄️", "job": "探検家", "je": "🧭", "animal": "きつね", "ae": "🦊", "rarity": "N", "img": "22.jpg"}, {"id": 23, "name": "デンキハムハカセ", "element": "でんき", "ee": "⚡", "job": "博士", "je": "🥼", "animal": "ハムスター", "ae": "🐹", "rarity": "SR", "img": "23.jpg"}, {"id": 24, "name": "ツチゴリラコウジ", "element": "じめん", "ee": "🪨", "job": "工事隊", "je": "🚧", "animal": "ゴリラ", "ae": "🦍", "rarity": "N", "img": "24.jpg"}, {"id": 25, "name": "カゼウマケイサツ", "element": "かぜ", "ee": "🌪️", "job": "警察", "je": "👮", "animal": "うま", "ae": "🐴", "rarity": "N", "img": "25.jpg"}, {"id": 26, "name": "ヒカリヒツジホイク", "element": "ひかり", "ee": "✨", "job": "先生", "je": "📚", "animal": "ひつじ", "ae": "🐑", "rarity": "N", "img": "26.jpg"}, {"id": 27, "name": "ヤミコウモリスパイ", "element": "やみ", "ee": "🌑", "job": "スパイ", "je": "🕶️", "animal": "こうもり", "ae": "🦇", "rarity": "SR", "img": "27.jpg"}, {"id": 28, "name": "ホノオブタコック", "element": "ほのお", "ee": "🔥", "job": "コック", "je": "👨‍🍳", "animal": "ぶた", "ae": "🐷", "rarity": "N", "img": "28.jpg"}, {"id": 29, "name": "ミズタコセンチョウ", "element": "みず", "ee": "💧", "job": "船長", "je": "⚓", "animal": "たこ", "ae": "🐙", "rarity": "R", "img": "29.jpg"}, {"id": 30, "name": "クサリスユウビン", "element": "くさ", "ee": "🌿", "job": "郵便屋", "je": "📮", "animal": "りす", "ae": "🐿️", "rarity": "N", "img": "30.jpg"}],KEY="kaisei-garapon-kimokawa-v1";let S={spins:0,owned:[]},busy=false;
-const $=x=>document.getElementById(x);try{let z=JSON.parse(localStorage.getItem(KEY));if(z&&Array.isArray(z.owned))S={spins:+z.spins||0,owned:z.owned}}catch(e){}
-function save(){localStorage.setItem(KEY,JSON.stringify(S))}
-function render(){ $("left").textContent=S.spins;$("ownedN").textContent=S.owned.length;$("spin").disabled=S.spins<1||busy;
-$("grid").innerHTML=C.map(c=>`<div class="card ${S.owned.includes(c.id)?"":"lock"}"><span class="rar">${c.rarity}</span><img src="${c.img}" alt=""><div class="cn">${c.name}</div></div>`).join("")}
-function pick(){let r=Math.random(),rar=r<.70?"N":r<.95?"R":"SR",p=C.filter(x=>x.rarity===rar);return p[Math.floor(Math.random()*p.length)]}
-function show(c,isNew){$("hero").innerHTML=`<img src="${c.img}" alt="${c.name}">`;$("name").textContent=c.name;$("meta").innerHTML=`<span class=tag>${c.ee} ${c.element}</span><span class=tag>${c.je} ${c.job}</span><span class=tag>${c.ae} ${c.animal}</span><span class=tag>${c.rarity}</span>${isNew?"<span class='tag new'>NEW!</span>":""}`}
-$("gear").onclick=()=>$("parent").classList.add("open");$("close").onclick=()=>$("parent").classList.remove("open");
-function add(n){S.spins=Math.min(99,S.spins+n);save();render();$("parent").classList.remove("open")}$("plus1").onclick=()=>add(1);$("plus3").onclick=()=>add(3);
-$("parent").onclick=e=>{if(e.target===$("parent"))$("parent").classList.remove("open")};
-$("reset").onclick=()=>{if(confirm("図鑑と回数を全部リセットしますか？")){S={spins:0,owned:[]};save();render();$("hero").innerHTML='<div class=q>?</div>';$("name").textContent="ガラポンしてみよう！";$("meta").innerHTML="";$("parent").classList.remove("open")}};
-$("spin").onclick=()=>{if(busy||S.spins<1)return;busy=true;S.spins--;save();render();$("name").textContent="ガラガラガラ…";setTimeout(()=>{let c=pick(),nw=!S.owned.includes(c.id);if(nw)S.owned.push(c.id);busy=false;save();show(c,nw);render()},850)};
-render();window.__GARAPON__={state:()=>S,add,pick};
+const C=[{"id": 1, "kana": "ア", "name": "アバレハガネイヌ", "element": "かぜ", "elementEmoji": "🌪️", "job": "警察", "jobEmoji": "👮", "attack": 9765, "defense": 1755, "rarity": "N", "img": "01.jpg"}, {"id": 2, "kana": "イ", "name": "インドトリヒコウ", "element": "やみ", "elementEmoji": "🌑", "job": "消防士", "jobEmoji": "🚒", "attack": 2162, "defense": 8291, "rarity": "N", "img": "02.jpg"}, {"id": 3, "kana": "ウ", "name": "ウラシマジジイ", "element": "くさ", "elementEmoji": "🌿", "job": "パイロット", "jobEmoji": "✈️", "attack": 2908, "defense": 3729, "rarity": "N", "img": "03.jpg"}, {"id": 4, "kana": "エ", "name": "エンマオニタイチョウ", "element": "ひかり", "elementEmoji": "✨", "job": "博士", "jobEmoji": "🥼", "attack": 4484, "defense": 3395, "rarity": "N", "img": "04.jpg"}, {"id": 5, "kana": "オ", "name": "オニギリオヤジ", "element": "じめん", "elementEmoji": "🪨", "job": "自衛隊", "jobEmoji": "🪖", "attack": 4077, "defense": 9427, "rarity": "R", "img": "05.jpg"}, {"id": 6, "kana": "カ", "name": "カメンコビト", "element": "ほのお", "elementEmoji": "🔥", "job": "大工", "jobEmoji": "🔨", "attack": 7515, "defense": 9635, "rarity": "SR", "img": "06.jpg"}, {"id": 7, "kana": "キ", "name": "キョウリュウキシ", "element": "やみ", "elementEmoji": "🌑", "job": "消防士", "jobEmoji": "🚒", "attack": 7237, "defense": 5652, "rarity": "N", "img": "07.jpg"}, {"id": 8, "kana": "ク", "name": "クモノスニンジャ", "element": "みず", "elementEmoji": "💧", "job": "パイロット", "jobEmoji": "✈️", "attack": 7007, "defense": 8242, "rarity": "R", "img": "08.jpg"}, {"id": 9, "kana": "ケ", "name": "ケロケロシェフ", "element": "みず", "elementEmoji": "💧", "job": "自衛隊", "jobEmoji": "🪖", "attack": 2110, "defense": 1953, "rarity": "N", "img": "09.jpg"}, {"id": 10, "kana": "コ", "name": "コオリノマホウツカイ", "element": "くさ", "elementEmoji": "🌿", "job": "警察", "jobEmoji": "👮", "attack": 2771, "defense": 2907, "rarity": "N", "img": "10.jpg"}, {"id": 11, "kana": "サ", "name": "サムライサソリ", "element": "くさ", "elementEmoji": "🌿", "job": "消防士", "jobEmoji": "🚒", "attack": 7738, "defense": 8384, "rarity": "R", "img": "11.jpg"}, {"id": 12, "kana": "シ", "name": "シロクマレスキュー", "element": "ひかり", "elementEmoji": "✨", "job": "博士", "jobEmoji": "🥼", "attack": 6449, "defense": 5298, "rarity": "N", "img": "12.jpg"}, {"id": 13, "kana": "ス", "name": "スイカノブシ", "element": "こおり", "elementEmoji": "❄️", "job": "パイロット", "jobEmoji": "✈️", "attack": 8833, "defense": 4845, "rarity": "R", "img": "13.jpg"}, {"id": 14, "kana": "セ", "name": "セミノミハリバン", "element": "かぜ", "elementEmoji": "🌪️", "job": "大工", "jobEmoji": "🔨", "attack": 2617, "defense": 1614, "rarity": "N", "img": "14.jpg"}, {"id": 15, "kana": "ソ", "name": "ソウジキモグラ", "element": "でんき", "elementEmoji": "⚡", "job": "パイロット", "jobEmoji": "✈️", "attack": 8218, "defense": 9972, "rarity": "SR", "img": "15.jpg"}, {"id": 16, "kana": "タ", "name": "タコヤキゾウ", "element": "じめん", "elementEmoji": "🪨", "job": "自衛隊", "jobEmoji": "🪖", "attack": 6130, "defense": 4134, "rarity": "N", "img": "16.jpg"}, {"id": 17, "kana": "チ", "name": "チョウチョケイサツ", "element": "じめん", "elementEmoji": "🪨", "job": "大工", "jobEmoji": "🔨", "attack": 1552, "defense": 5772, "rarity": "N", "img": "17.jpg"}, {"id": 18, "kana": "ツ", "name": "ツチノコニンジャ", "element": "でんき", "elementEmoji": "⚡", "job": "警察", "jobEmoji": "👮", "attack": 7091, "defense": 8414, "rarity": "R", "img": "18.jpg"}, {"id": 19, "kana": "テ", "name": "テングハイタツ", "element": "でんき", "elementEmoji": "⚡", "job": "料理人", "jobEmoji": "👨‍🍳", "attack": 4886, "defense": 2425, "rarity": "N", "img": "19.jpg"}, {"id": 20, "kana": "ト", "name": "トレジャーハンター", "element": "ほのお", "elementEmoji": "🔥", "job": "自衛隊", "jobEmoji": "🪖", "attack": 6975, "defense": 4642, "rarity": "N", "img": "20.jpg"}, {"id": 21, "kana": "ナ", "name": "ナマケモノセンセイ", "element": "やみ", "elementEmoji": "🌑", "job": "消防士", "jobEmoji": "🚒", "attack": 2464, "defense": 6014, "rarity": "N", "img": "21.jpg"}, {"id": 22, "kana": "ニ", "name": "ニンジャネコ", "element": "やみ", "elementEmoji": "🌑", "job": "忍者", "jobEmoji": "🥷", "attack": 4493, "defense": 1832, "rarity": "N", "img": "22.jpg"}, {"id": 23, "kana": "ヌ", "name": "ヌノカブリオバケ", "element": "くさ", "elementEmoji": "🌿", "job": "博士", "jobEmoji": "🥼", "attack": 5644, "defense": 1606, "rarity": "N", "img": "23.jpg"}, {"id": 24, "kana": "ネ", "name": "ネズミドロボウ", "element": "ひかり", "elementEmoji": "✨", "job": "料理人", "jobEmoji": "👨‍🍳", "attack": 3145, "defense": 3454, "rarity": "N", "img": "24.jpg"}, {"id": 25, "kana": "ノ", "name": "ノッポコビト", "element": "やみ", "elementEmoji": "🌑", "job": "医者", "jobEmoji": "🩺", "attack": 2793, "defense": 5631, "rarity": "N", "img": "25.jpg"}, {"id": 26, "kana": "ハ", "name": "ハナサカジジイ", "element": "じめん", "elementEmoji": "🪨", "job": "大工", "jobEmoji": "🔨", "attack": 7165, "defense": 4311, "rarity": "N", "img": "26.jpg"}, {"id": 27, "kana": "ヒ", "name": "ヒコウキペンギン", "element": "くさ", "elementEmoji": "🌿", "job": "医者", "jobEmoji": "🩺", "attack": 2834, "defense": 9027, "rarity": "N", "img": "27.jpg"}, {"id": 28, "kana": "フ", "name": "フランケンコビト", "element": "やみ", "elementEmoji": "🌑", "job": "博士", "jobEmoji": "🥼", "attack": 2463, "defense": 2975, "rarity": "N", "img": "28.jpg"}, {"id": 29, "kana": "ヘ", "name": "ヘビツカイコビト", "element": "みず", "elementEmoji": "💧", "job": "医者", "jobEmoji": "🩺", "attack": 3541, "defense": 3274, "rarity": "N", "img": "29.jpg"}, {"id": 30, "kana": "ホ", "name": "ホウセキホリ", "element": "でんき", "elementEmoji": "⚡", "job": "博士", "jobEmoji": "🥼", "attack": 4945, "defense": 6670, "rarity": "N", "img": "30.jpg"}, {"id": 31, "kana": "マ", "name": "マホウツカイコビト", "element": "ひかり", "elementEmoji": "✨", "job": "医者", "jobEmoji": "🩺", "attack": 9690, "defense": 4384, "rarity": "R", "img": "31.jpg"}, {"id": 32, "kana": "ミ", "name": "ミツバチパイロット", "element": "こおり", "elementEmoji": "❄️", "job": "消防士", "jobEmoji": "🚒", "attack": 1447, "defense": 1832, "rarity": "N", "img": "32.jpg"}, {"id": 33, "kana": "ム", "name": "ムシカゴハカセ", "element": "でんき", "elementEmoji": "⚡", "job": "博士", "jobEmoji": "🥼", "attack": 4084, "defense": 8320, "rarity": "N", "img": "33.jpg"}, {"id": 34, "kana": "メ", "name": "メカコビト", "element": "くさ", "elementEmoji": "🌿", "job": "消防士", "jobEmoji": "🚒", "attack": 5078, "defense": 4654, "rarity": "N", "img": "34.jpg"}, {"id": 35, "kana": "モ", "name": "モグラコウジタイ", "element": "くさ", "elementEmoji": "🌿", "job": "料理人", "jobEmoji": "👨‍🍳", "attack": 4978, "defense": 6993, "rarity": "N", "img": "35.jpg"}, {"id": 36, "kana": "ヤ", "name": "ヤマビココビト", "element": "ひかり", "elementEmoji": "✨", "job": "料理人", "jobEmoji": "👨‍🍳", "attack": 1588, "defense": 9739, "rarity": "N", "img": "36.jpg"}, {"id": 37, "kana": "ユ", "name": "ユキダルマケイサツ", "element": "こおり", "elementEmoji": "❄️", "job": "大工", "jobEmoji": "🔨", "attack": 1815, "defense": 2926, "rarity": "N", "img": "37.jpg"}, {"id": 38, "kana": "ヨ", "name": "ヨウカイカサヤ", "element": "でんき", "elementEmoji": "⚡", "job": "忍者", "jobEmoji": "🥷", "attack": 3526, "defense": 7558, "rarity": "N", "img": "38.jpg"}, {"id": 39, "kana": "ラ", "name": "ラーメンコビト", "element": "やみ", "elementEmoji": "🌑", "job": "探検家", "jobEmoji": "🧭", "attack": 3551, "defense": 1978, "rarity": "N", "img": "39.jpg"}, {"id": 40, "kana": "リ", "name": "リュウノコビト", "element": "でんき", "elementEmoji": "⚡", "job": "パイロット", "jobEmoji": "✈️", "attack": 1300, "defense": 4111, "rarity": "N", "img": "40.jpg"}, {"id": 41, "kana": "ル", "name": "ルービックハカセ", "element": "やみ", "elementEmoji": "🌑", "job": "料理人", "jobEmoji": "👨‍🍳", "attack": 8827, "defense": 8152, "rarity": "SR", "img": "41.jpg"}, {"id": 42, "kana": "レ", "name": "レインボーコビト", "element": "じめん", "elementEmoji": "🪨", "job": "大工", "jobEmoji": "🔨", "attack": 2994, "defense": 6281, "rarity": "N", "img": "42.jpg"}, {"id": 43, "kana": "ロ", "name": "ロケットコビト", "element": "ひかり", "elementEmoji": "✨", "job": "医者", "jobEmoji": "🩺", "attack": 3654, "defense": 4015, "rarity": "N", "img": "43.jpg"}, {"id": 44, "kana": "ワ", "name": "ワニワニコビト", "element": "かぜ", "elementEmoji": "🌪️", "job": "探検家", "jobEmoji": "🧭", "attack": 6911, "defense": 4687, "rarity": "N", "img": "44.jpg"}, {"id": 45, "kana": "ヲ", "name": "ヲドリコビト", "element": "みず", "elementEmoji": "💧", "job": "警察", "jobEmoji": "👮", "attack": 5762, "defense": 6948, "rarity": "N", "img": "45.jpg"}, {"id": 46, "kana": "ン", "name": "ンチャコビト", "element": "かぜ", "elementEmoji": "🌪️", "job": "自衛隊", "jobEmoji": "🪖", "attack": 6793, "defense": 1950, "rarity": "N", "img": "46.jpg"}]; const KEY='kaisei-50on-v1'; let S={spins:0,owned:[]},busy=false; const $=x=>document.getElementById(x);
+try{let z=JSON.parse(localStorage.getItem(KEY));if(z&&Array.isArray(z.owned))S={spins:+z.spins||0,owned:z.owned}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function render(){
+  $('left').textContent=S.spins;
+  $('ownedN').textContent=S.owned.length;
+  $('spin').disabled=S.spins<1||busy;
+  $('grid').innerHTML=C.map(c=>{
+    const owned=S.owned.includes(c.id);
+    return `<div class="card ${owned?'':'lock'}" data-id="${c.id}" data-kana="${c.kana}">
+      <span class="circleKana">${c.kana}</span><span class="rar">${c.rarity}</span>
+      <img src="${c.img}" alt="${c.name}">
+      <div class="cardFooter">
+        <div class="cardName2">${c.name}</div>
+        <div class="cardMini"><span>${c.elementEmoji}${c.jobEmoji}</span><span class="a">攻${c.attack}</span><span class="d">防${c.defense}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.card:not(.lock)').forEach(el=>{
+    el.addEventListener('click',()=>openDetail(C.find(c=>c.id===+el.dataset.id)));
+  });
+}
+function pick(){let r=Math.random(),rar=r<.72?'N':r<.95?'R':'SR',p=C.filter(x=>x.rarity===rar);if(!p.length)p=C;return p[Math.floor(Math.random()*p.length)]}
+function cardHTML(c,nw=false){
+  return `<div class="resultCard">
+    <div class="resultTop">
+      <div class="resultKana">${c.kana}</div>
+      <div class="resultTitle">${c.name}</div>
+      <div class="resultRarity">${c.rarity}</div>
+    </div>
+    <div class="resultImageWrap"><img src="${c.img}" alt="${c.name}"></div>
+    <div class="resultMeta">
+      <div class="metaBox"><span class="metaLabel">属性</span>${c.elementEmoji} ${c.element}</div>
+      <div class="metaBox"><span class="metaLabel">職業</span>${c.jobEmoji} ${c.job}</div>
+    </div>
+    <div class="resultStats">
+      <div class="resultStat atk">攻撃<span class="num">${c.attack}</span></div>
+      <div class="resultStat def">防御<span class="num">${c.defense}</span></div>
+    </div>
+    ${nw?'<div style="text-align:center;margin-top:8px"><span class="tag new">NEW!</span></div>':''}
+  </div>`;
+}
+function show(c,nw){
+  $('hero').innerHTML=cardHTML(c,nw);
+  $('hero').style.height='auto';
+  $('name').textContent='';
+  $('tags').innerHTML='';
+  $('stats').style.display='none';
+}
+function openDetail(c){
+  $('detailContent').innerHTML=cardHTML(c,false);
+  $('detailOverlay').classList.add('open');
+  $('detailOverlay').setAttribute('aria-hidden','false');
+}
+function add(n){S.spins=Math.min(99,S.spins+n);save();render();$('parent').classList.remove('open')} $('gear').onclick=()=>$('parent').classList.add('open');$('close').onclick=()=>$('parent').classList.remove('open');$('plus1').onclick=()=>add(1);$('plus3').onclick=()=>add(3);$('parent').onclick=e=>{if(e.target===$('parent'))$('parent').classList.remove('open')};
+$('detailClose').onclick=()=>{$('detailOverlay').classList.remove('open');$('detailOverlay').setAttribute('aria-hidden','true')};
+$('detailOverlay').onclick=e=>{if(e.target===$('detailOverlay'))$('detailClose').click()};
+
+$('reset').onclick=()=>{if(confirm('図鑑と回数を全部リセットしますか？')){S={spins:0,owned:[]};save();$('hero').innerHTML='<div class=q>?</div>';$('hero').style.height='min(82vw,390px)';$('name').textContent='ガラポンしてみよう！';$('tags').innerHTML='';$('stats').style.display='none';render();$('parent').classList.remove('open')}};
+$('spin').onclick=()=>{if(busy||S.spins<1)return;busy=true;S.spins--;save();render();$('hero').style.height='min(82vw,390px)';$('name').textContent='ガラガラガラ…';$('tags').innerHTML='';$('stats').style.display='none';let t=0,tm=setInterval(()=>{let c=C[t++%C.length];$('hero').innerHTML=`<div class="kanaBig">${c.kana}</div><img src="${c.img}">`},65);setTimeout(()=>{clearInterval(tm);let c=pick(),nw=!S.owned.includes(c.id);if(nw)S.owned.push(c.id);busy=false;save();show(c,nw);render()},900)};render();window.__GARAPON__={state:()=>S,add,pick,chars:C};
 </script></body></html>
